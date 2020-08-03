@@ -32,7 +32,7 @@ public class FlintController {
       return list;
     }
 
-
+// Save Flints
     @PostMapping("/addFlints")
     public ResponseEntity<?> createFlint(@RequestBody Flint flint) {
         Flint savedObject=flintService.getFlintRepo().save(flint);
