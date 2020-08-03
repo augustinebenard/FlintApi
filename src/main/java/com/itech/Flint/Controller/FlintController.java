@@ -9,6 +9,7 @@ import com.itech.Flint.Model.Flint;
 import com.itech.Flint.Util.MessageUtil;
 import com.itech.Flint.Service.ApiResponse;
 import com.itech.Flint.Service.FlintService;
+import com.itech.Flint.exception.RecordNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,6 @@ import java.util.List;
  * @author Nandom Gusen
  */
 @RestController
-
-@CrossOrigin(origins = "http://localhost:4200")
 public class FlintController {
 
     @Autowired
@@ -37,7 +36,22 @@ public class FlintController {
     @PostMapping("/addFlints")
     public ResponseEntity<?> createFlint(@RequestBody Flint flint) {
         Flint savedObject=flintService.getFlintRepo().save(flint);
-        return ResponseEntity.ok(new ApiResponse(MessageUtil.Response, MessageUtil.Saved ));
+        return ResponseEntity.ok(new ApiResponse(MessageUtil.Response, MessageUtil.Saved, savedObject ));
 
     }
+
+
+
+    @DeleteMapping("/deleteFlint/{id}")
+    public ResponseEntity deleteFlintById(@PathVariable("id") Long id) {
+        return flintService.getFlintRepo().findById(id).map(record -> {
+            flintService.getFlintRepo().deleteById(id);
+            return ResponseEntity.ok(new ApiResponse<>(MessageUtil.Deleted, MessageUtil.Deleted));
+        }).orElseThrow(() -> new RecordNotFoundException("Record Not Found for: " + id));
+    }
+
+//    @DeleteMapping("/deleteFlint/{id}")
+//    public void delete(@PathVariable Long id) {
+//        flintService.getFlintRepo().deleteById(id);
+//    }
 }

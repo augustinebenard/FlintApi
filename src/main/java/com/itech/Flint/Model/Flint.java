@@ -23,24 +23,18 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "flint")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Flint.findAll", query = "SELECT f FROM Flint f")
-    , @NamedQuery(name = "Flint.findById", query = "SELECT f FROM Flint f WHERE f.id = :id")
-    , @NamedQuery(name = "Flint.findByEmail", query = "SELECT f FROM Flint f WHERE f.email = :email")
-    , @NamedQuery(name = "Flint.findByPassword", query = "SELECT f FROM Flint f WHERE f.password = :password")})
+
 public class Flint implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
+
     @Column(name = "Email")
     private String email;
-    @Basic(optional = false)
+
     @Column(name = "Password")
     private String password;
 
@@ -105,5 +99,7 @@ public class Flint implements Serializable {
     public String toString() {
         return "com.itech.Flint.Model.Flint[ id=" + id + " ]";
     }
+
+
     
 }
